@@ -2,13 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ITER_MAX 100000
+
 int **creater_mtr(int n, int m);
 void clear(int **mas, int n);
 void cicle_of_prog(int **mas, int n, int m);
+
 int main(int argc, char *argv[]) {
   int **arr;
   int n, m;
   scanf("%d %d", &n, &m);
+  arr = creater_mtr(n, m);
+
+  clear(arr, n);
   return 0;
 }
 
@@ -39,8 +45,12 @@ void clear(int **mas, int n) {
 void cicle_of_prog(int **mas, int n, int m) {
   int iter = 0;
 
-  while (1) {
-    /* code */
+  while (iter <= ITER_MAX) {
+    iter += 1;
+    int **local_arr;
+    local_arr = creater_mtr(n, m);
+
+    clear(local_arr, n);
     break;
   }
 }
