@@ -13,3 +13,7 @@ all:
 
 clean:
 	rm a.out
+
+update:
+	git pull
+	rm a.out

@@ -57,10 +57,10 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max) {
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        // local_arr[i][j] = mas[][] + mas[][] + mas[][] + mas[] + mas[][];
+        local_arr[i][j] = mas[i][j] + mas[i-1][j] + mas[i][j-1] + mas[i+1][j] + mas[i][j+1];
 
         // add error check
-        
+
       }
     }
 
@@ -69,4 +69,9 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max) {
       clear(local_arr, n);
     break;
   }
+}
+
+void max_fn(int x, int y){
+    if(x > y) y = x;
+    return y;
 }
