@@ -5,6 +5,7 @@
 int **creater_mtr(int n, int m);
 void clear(int **mas, int n);
 void cicle_of_prog(int **mas, int n, int m, int iter_max);
+int max_fn(int x, int y);
 
 int main(int argc, char *argv[]) {
   int **arr;
@@ -17,7 +18,7 @@ int main(int argc, char *argv[]) {
   } else {
   }
   arr = creater_mtr(n, m);
-
+    
   clear(arr, n);
   return 0;
 }
@@ -48,18 +49,20 @@ void clear(int **mas, int n) {
 
 void cicle_of_prog(int **mas, int n, int m, int iter_max) {
   int iter = 0;
-  int error; // Is its init here?
-
-  while (iter <= iter_max) {
+  int error_c = 0; // Is its init here?
+    int toll;
+  while (iter <= iter_max && error_c > toll) {
     iter += 1;
+    error_c = 0;
     int **local_arr;
     local_arr = creater_mtr(n, m);
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        local_arr[i][j] = mas[i][j] + mas[i-1][j] + mas[i][j-1] + mas[i+1][j] + mas[i][j+1];
-
+        //
+        local_arr[i][j] = (mas[i][j] + mas[i-1][j] + mas[i][j-1] + mas[i+1][j] + mas[i][j+1]);
         // add error check
+        error_c = max_fn(error_c, (local_arr[i][j] - mas[i][j]));
 
       }
     }
@@ -71,7 +74,7 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max) {
   }
 }
 
-void max_fn(int x, int y){
+int max_fn(int x, int y){
     if(x > y) y = x;
     return y;
 }
