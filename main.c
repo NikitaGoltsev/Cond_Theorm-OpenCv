@@ -4,7 +4,7 @@
 
 int **creater_mtr(int n, int m);
 void clear(int **mas, int n);
-void cicle_of_prog(int **mas, int n, int m, int iter_max);
+void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles);
 int max_fn(int x, int y);
 
 int main(int argc, char *argv[]) {
@@ -12,14 +12,17 @@ int main(int argc, char *argv[]) {
   int n, m;
   int iter_max;
 
+  // Change tool
+  double tool = 0.000001;
   if (argc <= 1) {
     scanf("%d %d", &n, &m);
     scanf("%d", &iter_max);
+    scanf("%d", &tool);
   } else {
   }
   arr = creater_mtr(n, m);
 
-  cicle_of_prog(arr, n, m, iter_max);
+  cicle_of_prog(arr, n, m, iter_max, tool);
 
   clear(arr, n);
   return 0;
@@ -49,10 +52,10 @@ void clear(int **mas, int n) {
   free(mas);
 }
 
-void cicle_of_prog(int **mas, int n, int m, int iter_max) {
+void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
   int iter = 0;
-  int error_c = 0; // Is its init here?
-  int toll;
+  int error_c = 1.0; // Is its init here?
+  double toll = tooles;
   while (iter <= iter_max && error_c > toll) {
     iter += 1;
     error_c = 0;
@@ -75,6 +78,8 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max) {
     clear(local_arr, n);
     break;
   }
+
+  printf("");
 }
 
 int max_fn(int x, int y) {
