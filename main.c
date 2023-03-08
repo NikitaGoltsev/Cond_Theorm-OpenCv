@@ -78,9 +78,8 @@ void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles) {
     for (int i = 1; i < n - 1; i++) {
       for (int j = 1; j < m - 1; j++) {
         //
-        if (i != 0 && j != 0 && i != n - 1 && j != m - 1)
-          local_arr[i][j] = 0.25 * (mas[i][j] + mas[i - 1][j] + mas[i][j - 1] +
-                                    mas[i + 1][j] + mas[i][j + 1]);
+        local_arr[i][j] = 0.25 * (mas[i - 1][j] + mas[i][j - 1] +
+                                  mas[i + 1][j] + mas[i][j + 1]);
         // add error check
         error_c = max_fn(error_c, module_fn((local_arr[i][j] - mas[i][j])));
       }
