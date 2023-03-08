@@ -6,6 +6,8 @@ int **creater_mtr(int n, int m);
 void clear(int **mas, int n);
 void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles);
 int max_fn(int x, int y);
+void copy_to_old(int **new_m, int **old_m, int n, int m);
+void copy_el(int *x, int *y);
 
 int main(int argc, char *argv[]) {
   int **arr;
@@ -14,7 +16,8 @@ int main(int argc, char *argv[]) {
 
   // Change tool
   double tool = 0.000001;
-  n = 128; m = 128;
+  n = 128;
+  m = 128;
   iter_max = 100000;
   /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
@@ -67,8 +70,9 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
         //
-        local_arr[i][j] = (mas[i][j] + mas[i - 1][j] + mas[i][j - 1] +
-                           mas[i + 1][j] + mas[i][j + 1]);
+        if (i != 0 && j != 0 && i != n - 1 && j != m - 1)
+          local_arr[i][j] = (mas[i][j] + mas[i - 1][j] + mas[i][j - 1] +
+                             mas[i + 1][j] + mas[i][j + 1]);
         // add error check
         error_c = max_fn(error_c, (local_arr[i][j] - mas[i][j]));
       }
@@ -77,6 +81,8 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
     // Iter check, out of cicles
     if (iter % 100 == 0 || iter == 1)
       printf("iter:%d error:%lf\n", iter, error_c);
+
+    copy_to_old(mas, local_arr, n, m);
     clear(local_arr, n);
     break;
   }
@@ -90,8 +96,11 @@ int max_fn(int x, int y) {
   return y;
 }
 
-void copy_to_old(int *new_m, int *old_m, int n, int m){
+void copy_to_old(int **new_m, int **old_m, int n, int m) {
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++)
+      copy_el(&new_m[i][j], &old_m[i][j]);
+  }
 }
 
-void copy_el(int *x, int *y){
-}
+void copy_el(int *x, int *y) { *x = *y; }
