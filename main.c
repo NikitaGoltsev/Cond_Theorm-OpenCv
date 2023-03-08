@@ -14,12 +14,14 @@ int main(int argc, char *argv[]) {
 
   // Change tool
   double tool = 0.000001;
-  if (argc <= 1) {
+  n = 128; m = 128;
+  iter_max = 100000;
+  /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
     scanf("%d", &iter_max);
     scanf("%d", &tool);
   } else {
-  }
+  }*/
   arr = creater_mtr(n, m);
 
   cicle_of_prog(arr, n, m, iter_max, tool);
@@ -74,7 +76,7 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
 
     // Iter check, out of cicles
     if (iter % 100 == 0 || iter == 1)
-      printf("\n");
+      printf("iter:%d error:%lf\n", iter, error_c);
     clear(local_arr, n);
     break;
   }
@@ -86,4 +88,10 @@ int max_fn(int x, int y) {
   if (x > y)
     y = x;
   return y;
+}
+
+void copy_to_old(int *new_m, int *old_m, int n, int m){
+}
+
+void copy_el(int *x, int *y){
 }
