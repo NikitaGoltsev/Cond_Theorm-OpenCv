@@ -2,15 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int **creater_mtr(int n, int m);
-void clear(int **mas, int n);
-void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles);
+double **creater_mtr(int n, int m);
+void clear(double **mas, int n);
+void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles);
 int max_fn(int x, int y);
-void copy_to_old(int **new_m, int **old_m, int n, int m);
-void copy_el(int *x, int *y);
+void copy_to_old(double **new_m, double **old_m, int n, int m);
+void copy_el(double *x, double *y);
 
 int main(int argc, char *argv[]) {
-  int **arr;
+  double **arr;
   int n, m;
   int iter_max;
 
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
   double tool = 0.000001;
   n = 128;
   m = 128;
-  iter_max = 100000;
+  iter_max = 10000;
   /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
     scanf("%d", &iter_max);
@@ -33,12 +33,12 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-int **creater_mtr(int n, int m) {
-  int **mas;
-  mas = malloc(sizeof(int *) * n);
+double **creater_mtr(int n, int m) {
+  double **mas;
+  mas = malloc(sizeof(double *) * n);
   // Cicle here
   for (int i = 0; i < n; i++) {
-    mas[i] = malloc(sizeof(int) * m);
+    mas[i] = malloc(sizeof(double) * m);
     for (int j = 0; j < m; j++)
       mas[i][j] = 0;
   }
@@ -47,10 +47,17 @@ int **creater_mtr(int n, int m) {
   mas[n - 1][0] = 30;
   mas[n - 1][m - 1] = 20;
 
+  //#pragma acc parallel loop present(A [0:n] [0:m])
+  for (int i = 1; i < n - 1; ++i) {
+    mas[0][i] = 10 + ((mas[0][m - 1] - mas[0][0]) / (n - 1)) * i;
+    mas[i][0] = 10 + ((mas[n - 1][0] - mas[0][0]) / (n - 1)) * i;
+    mas[n - 1][i] = 10 + ((mas[n - 1][0] - mas[n - 1][m - 1]) / (n - 1)) * i;
+    mas[i][m - 1] = 10 + ((mas[n - 1][m - 1] - mas[n - 1][0]) / (n - 1)) * i;
+  }
   return mas;
 }
 
-void clear(int **mas, int n) {
+void clear(double **mas, int n) {
   for (int i = 0; i < n; i++) {
     free(mas[i]);
   }
@@ -71,8 +78,8 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
       for (int j = 0; j < m; j++) {
         //
         if (i != 0 && j != 0 && i != n - 1 && j != m - 1)
-          local_arr[i][j] = (mas[i][j] + mas[i - 1][j] + mas[i][j - 1] +
-                             mas[i + 1][j] + mas[i][j + 1]);
+          local_arr[i][j] = 0.25 * (mas[i][j] + mas[i - 1][j] + mas[i][j - 1] +
+                                    mas[i + 1][j] + mas[i][j + 1]);
         // add error check
         error_c = max_fn(error_c, (local_arr[i][j] - mas[i][j]));
       }
@@ -84,23 +91,23 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
 
     copy_to_old(mas, local_arr, n, m);
     clear(local_arr, n);
-    break;
   }
 
   printf("Iterations:%d\nError:%lf", iter, error_c);
 }
 
 int max_fn(int x, int y) {
-  if (x > y)
-    y = x;
-  return y;
+  int res = y;
+  if (x > res)
+    res = x;
+  return res;
 }
 
-void copy_to_old(int **new_m, int **old_m, int n, int m) {
+void copy_to_old(double **new_m, double **old_m, int n, int m) {
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < m; j++)
       copy_el(&new_m[i][j], &old_m[i][j]);
   }
 }
 
-void copy_el(int *x, int *y) { *x = *y; }
+void copy_el(double *x, double *y) { *x = *y; }
