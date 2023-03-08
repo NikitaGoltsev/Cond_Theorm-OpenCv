@@ -54,7 +54,7 @@ void clear(int **mas, int n) {
 
 void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
   int iter = 0;
-  int error_c = 1.0; // Is its init here?
+  double error_c = 1.0; // Is its init here?
   double toll = tooles;
   while (iter <= iter_max && error_c > toll) {
     iter += 1;
@@ -79,7 +79,7 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
     break;
   }
 
-  printf("");
+  printf("Iterations:%d\nError:%lf", iter, error_c);
 }
 
 int max_fn(int x, int y) {
