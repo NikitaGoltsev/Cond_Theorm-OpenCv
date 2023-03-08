@@ -23,10 +23,8 @@ run_multicore_cpu:
 	pgcc main.c -pg -ta=multicore -o file.out
 	./file.out
 	gprof file.out
-	time ./file.out
 
 run_gpu:
 	export PGI_ACC_TIME=1
 	pgcc main.c -acc -Minfo=accel -o file.out
 	nvprof ./file.out
-	time ./file.out
