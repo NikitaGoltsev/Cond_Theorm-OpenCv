@@ -5,7 +5,7 @@
 double **creater_mtr(int n, int m);
 void clear(double **mas, int n);
 void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles);
-int max_fn(int x, int y);
+double max_fn(double x, double y);
 void copy_to_old(double **new_m, double **old_m, int n, int m);
 void copy_el(double *x, double *y);
 double module_fn(double x);
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   double tool = 0.000001;
   n = 128;
   m = 128;
-  iter_max = 10000;
+  iter_max = 1000000;
   /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
     scanf("%d", &iter_max);
@@ -96,8 +96,8 @@ void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles) {
   printf("Iterations:%d\nError:%lf", iter, error_c);
 }
 
-int max_fn(int x, int y) {
-  int res = y;
+double max_fn(double x, double y) {
+  double res = y;
   if (x > res)
     res = x;
   return res;
