@@ -8,6 +8,7 @@ void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles);
 int max_fn(int x, int y);
 void copy_to_old(double **new_m, double **old_m, int n, int m);
 void copy_el(double *x, double *y);
+double module_fn(double x);
 
 int main(int argc, char *argv[]) {
   double **arr;
@@ -64,24 +65,24 @@ void clear(double **mas, int n) {
   free(mas);
 }
 
-void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
+void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles) {
   int iter = 0;
   double error_c = 1.0; // Is its init here?
   double toll = tooles;
+  double **local_arr;
+  local_arr = creater_mtr(n, m);
   while (iter <= iter_max && error_c > toll) {
     iter += 1;
-    error_c = 0;
-    int **local_arr;
-    local_arr = creater_mtr(n, m);
+    error_c = 0.0;
 
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < m; j++) {
+    for (int i = 1; i < n - 1; i++) {
+      for (int j = 1; j < m - 1; j++) {
         //
         if (i != 0 && j != 0 && i != n - 1 && j != m - 1)
           local_arr[i][j] = 0.25 * (mas[i][j] + mas[i - 1][j] + mas[i][j - 1] +
                                     mas[i + 1][j] + mas[i][j + 1]);
         // add error check
-        error_c = max_fn(error_c, (local_arr[i][j] - mas[i][j]));
+        error_c = max_fn(error_c, module_fn((local_arr[i][j] - mas[i][j])));
       }
     }
 
@@ -90,9 +91,8 @@ void cicle_of_prog(int **mas, int n, int m, int iter_max, double tooles) {
       printf("iter:%d error:%lf\n", iter, error_c);
 
     copy_to_old(mas, local_arr, n, m);
-    clear(local_arr, n);
   }
-
+  clear(local_arr, n);
   printf("Iterations:%d\nError:%lf", iter, error_c);
 }
 
@@ -111,3 +111,9 @@ void copy_to_old(double **new_m, double **old_m, int n, int m) {
 }
 
 void copy_el(double *x, double *y) { *x = *y; }
+
+double module_fn(double x) {
+  if (x < 0)
+    x *= -1;
+  return x;
+}
