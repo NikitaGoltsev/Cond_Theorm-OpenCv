@@ -62,7 +62,7 @@ void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles) {
   double **local_arr;
   local_arr = creater_mtr(n, m);
 
-  #pragma acc enter data copyin(mas [0:n] [0:m],error) create(local_arr[n][m])
+  #pragma acc enter data copyin(mas [0:n] [0:m], error_c) create(local_arr[n][m])
 
   mas[0][0] = 10;
   mas[0][m - 1] = 20;
