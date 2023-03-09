@@ -20,6 +20,8 @@ int main(int argc, char *argv[]) {
   n = 128;
   m = 128;
   iter_max = 1000000;
+  #pragma acc data create(arr[:N]) copyin(angle) copy(sum) // For gpu
+  {
   /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
     scanf("%d", &iter_max);
@@ -32,6 +34,7 @@ int main(int argc, char *argv[]) {
 
   clear(arr, n);
   return 0;
+  }
 }
 
 double **creater_mtr(int n, int m) {
