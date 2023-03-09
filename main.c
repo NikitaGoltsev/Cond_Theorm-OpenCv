@@ -20,8 +20,6 @@ int main(int argc, char *argv[]) {
   n = 128;
   m = 128;
   iter_max = 1000000;
-  #pragma acc data create(arr[:N]) copyin(angle) copy(sum) // For gpu
-  {
   /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
     scanf("%d", &iter_max);
@@ -34,7 +32,7 @@ int main(int argc, char *argv[]) {
 
   clear(arr, n);
   return 0;
-  }
+  
 }
 
 double **creater_mtr(int n, int m) {
@@ -46,18 +44,7 @@ double **creater_mtr(int n, int m) {
     for (int j = 0; j < m; j++)
       mas[i][j] = 0;
   }
-  mas[0][0] = 10;
-  mas[0][m - 1] = 20;
-  mas[n - 1][0] = 30;
-  mas[n - 1][m - 1] = 20;
 
-  //#pragma acc parallel loop present(A [0:n] [0:m])
-  for (int i = 1; i < n - 1; ++i) {
-    mas[0][i] = 10 + ((mas[0][m - 1] - mas[0][0]) / (n - 1)) * i;
-    mas[i][0] = 10 + ((mas[n - 1][0] - mas[0][0]) / (n - 1)) * i;
-    mas[n - 1][i] = 10 + ((mas[n - 1][0] - mas[n - 1][m - 1]) / (n - 1)) * i;
-    mas[i][m - 1] = 10 + ((mas[n - 1][m - 1] - mas[n - 1][0]) / (n - 1)) * i;
-  }
   return mas;
 }
 
@@ -74,10 +61,29 @@ void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles) {
   double toll = tooles;
   double **local_arr;
   local_arr = creater_mtr(n, m);
+
+  #pragma acc enter data copyin(mas [0:n] [0:m],error) create(local_arr[n][m])
+
+  mas[0][0] = 10;
+  mas[0][m - 1] = 20;
+  mas[n - 1][0] = 30;
+  mas[n - 1][m - 1] = 20;
+
+  #pragma acc parallel loop present(mas[0:n][0:m])
+  for (int i = 1; i < n - 1; ++i) {
+    mas[0][i] = 10 + ((mas[0][m - 1] - mas[0][0]) / (n - 1)) * i;
+    mas[i][0] = 10 + ((mas[n - 1][0] - mas[0][0]) / (n - 1)) * i;
+    mas[n - 1][i] = 10 + ((mas[n - 1][0] - mas[n - 1][m - 1]) / (n - 1)) * i;
+    mas[i][m - 1] = 10 + ((mas[n - 1][m - 1] - mas[n - 1][0]) / (n - 1)) * i;
+  }
+
   while (iter <= iter_max && error_c > toll) {
     iter += 1;
     error_c = 0.0;
 
+    #pragma acc update device(error_c)
+
+    #pragma acc parallel loop collapse(2) present(mas[0:n][0:m]) reduction(max : error_c)
     for (int i = 1; i < n - 1; i++) {
       for (int j = 1; j < m - 1; j++) {
         //
