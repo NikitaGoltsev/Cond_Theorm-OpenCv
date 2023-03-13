@@ -17,8 +17,8 @@ int main(int argc, char *argv[]) {
 
   // Change tool
   double tool = 0.000001;
-  n = 256;
-  m = 256;
+  n = 512;
+  m = 512;
   iter_max = 1000000;
   /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
