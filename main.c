@@ -17,8 +17,8 @@ int main(int argc, char *argv[]) {
 
   // Change tool
   double tool = 0.000001;
-  n = 256;
-  m = 256;
+  n = 1024;
+  m = 1024;
   iter_max = 1000000;
   /*if (argc <= 1) {
     scanf("%d %d", &n, &m);
@@ -32,7 +32,6 @@ int main(int argc, char *argv[]) {
 
   clear(arr, n);
   return 0;
-  
 }
 
 double **creater_mtr(int n, int m) {
@@ -62,14 +61,15 @@ void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles) {
   double **local_arr;
   local_arr = creater_mtr(n, m);
 
-  #pragma acc enter data copyin(mas [0:n] [0:m], error_c) create(local_arr[0:n][0:m])
+#pragma acc enter data copyin(mas [0:n] [0:m], error_c)                        \
+    create(local_arr [0:n] [0:m])
 
   mas[0][0] = 10;
   mas[0][m - 1] = 20;
   mas[n - 1][0] = 30;
   mas[n - 1][m - 1] = 20;
 
-  #pragma acc parallel loop present(mas[0:n][0:m])
+#pragma acc parallel loop present(mas [0:n] [0:m])
   for (int i = 1; i < n - 1; ++i) {
     mas[0][i] = 10 + ((mas[0][m - 1] - mas[0][0]) / (n - 1)) * i;
     mas[i][0] = 10 + ((mas[n - 1][0] - mas[0][0]) / (n - 1)) * i;
@@ -81,9 +81,11 @@ void cicle_of_prog(double **mas, int n, int m, int iter_max, double tooles) {
     iter += 1;
     error_c = 0.0;
 
-    #pragma acc update device(error_c)
+#pragma acc update device(error_c)
 
-    #pragma acc parallel loop collapse(2) present(mas[0:n][0:m]) reduction(max : error_c)
+#pragma acc parallel loop collapse(2) present(mas [0:n] [0:m])                 \
+    reduction(max                                                              \
+              : error_c)
     for (int i = 1; i < n - 1; i++) {
       for (int j = 1; j < m - 1; j++) {
         //
