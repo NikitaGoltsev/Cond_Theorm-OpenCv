@@ -76,7 +76,7 @@ void solution(TYPE tol,int iter_max,int n){
 
 int main(int argc, char *argv[]){
     TYPE tol{1e-6};
-    int iter_max{1000000},n{128}; //значения для отладки, по умолчанию инициализировать нулями
+    int iter_max{1000000},n{128}; //Net with zeros by default
 
     std::string tmpStr;
     //-t - точность

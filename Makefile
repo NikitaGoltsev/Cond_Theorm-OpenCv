@@ -7,7 +7,7 @@ git_avg:
 	git push
 
 all:
-	gcc main.c
+	gpp lab2.cpp
 	./a.out
 	rm a.out
 
