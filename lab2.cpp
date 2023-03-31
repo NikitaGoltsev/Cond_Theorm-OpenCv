@@ -4,9 +4,7 @@
 #include <string>
 
 //поддержка double
-#define LF_SUP
 
-#ifdef LF_SUP
 #define TYPE double
 #define ABS fabs
 #define MAX fmax
