@@ -32,6 +32,6 @@ run_gpu:
 
 rn_optim:
 	export PGI_ACC_TIME=1
-	pgcc main.c -acc -Minfo=accel -o file.out
+	pg++ optimize_lab.cpp -acc -Minfo=accel -o file.out
 	./file.out
 	nvprof file.out
