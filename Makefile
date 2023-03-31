@@ -39,3 +39,4 @@ rn_optim:
 test_nvc:
 	nvc++ -c -o main.o lab2.cpp
 	nvc++ main.o -o cg.x
+	nvprof --cpu-profiling on ./cg.x 
