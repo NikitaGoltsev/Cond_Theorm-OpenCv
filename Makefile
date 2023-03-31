@@ -1,5 +1,5 @@
 format:
-	clang-format -i *.c
+	clang-format -i *.c *.cpp
 
 git_avg:
 	git add *
@@ -7,7 +7,7 @@ git_avg:
 	git push
 
 all:
-	gpp lab2.cpp
+	g++ lab2.cpp -o a.out
 	./a.out
 	rm a.out
 
