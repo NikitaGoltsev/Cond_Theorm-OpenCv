@@ -37,5 +37,5 @@ rn_optim:
 	nvprof file.out
 
 test_nvc:
-	nvc++    -c -o main.o main.cpp
+	nvc++ -c -o main.o lab2.cpp
 	nvc++ main.o -o cg.x

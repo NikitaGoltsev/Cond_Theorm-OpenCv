@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
   auto start = std::chrono::high_resolution_clock::now();
   TYPE tol{1e-6};
   int iter_max{1000000},
-      n{128}; //значения для отладки, по умолчанию инициализировать нулями
+      n{1024}; //значения для отладки, по умолчанию инициализировать нулями
 
   std::string tmpStr;
   //-t - точность
