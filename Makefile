@@ -29,3 +29,9 @@ run_gpu:
 	pgcc main.c -acc -Minfo=accel -o file.out
 	./file.out
 	nvprof file.out
+
+rn_optim:
+	export PGI_ACC_TIME=1
+	pgcc main.c -acc -Minfo=accel -o file.out
+	./file.out
+	nvprof file.out
