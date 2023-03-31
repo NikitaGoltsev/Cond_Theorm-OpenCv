@@ -35,3 +35,7 @@ rn_optim:
 	pgcc optimize_lab.cpp -acc -Minfo=accel -o file.out
 	./file.out
 	nvprof file.out
+
+test_nvc:
+	nvc++    -c -o main.o main.cpp
+	nvc++ main.o -o cg.x

@@ -1,21 +1,11 @@
 #include <iostream>
 #include <cmath>
 #include <string>
-
-//поддержка double
-#define LF_SUP
-
-#ifdef LF_SUP 
+ 
 #define TYPE double
 #define ABS fabs
 #define MAX fmax
 #define CAST std::stod
-#else
-#define TYPE float
-#define ABS fabsf
-#define MAX fmaxf
-#define CAST std::stof
-#endif
 
 //инициализация сетки
 void initArr(TYPE** A,int n){
