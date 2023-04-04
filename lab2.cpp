@@ -1,6 +1,7 @@
 #include <chrono>
 #include <cmath>
 #include <iostream>
+#include <openacc.h>
 
 #ifdef _FLOAT
 #define T float
@@ -140,6 +141,7 @@ void calculate(int net_size = 128, int iter_max = 1e6, T accuracy = 1e-6,
 }
 
 int main(int argc, char *argv[]) {
+  acc_set_device_num(2,acc_device_default); 
   auto begin_main = std::chrono::steady_clock::now();
   int net_size = 1024, iter_max = (int)1e6;
   T accuracy = 1e-6;
