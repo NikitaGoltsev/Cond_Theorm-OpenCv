@@ -82,6 +82,7 @@ void solution(TYPE tol, int iter_max, int n) {
 }
 
 int main(int argc, char *argv[]) {
+  acc_set_device_num(2,acc_device_default);
   auto start = std::chrono::high_resolution_clock::now();
   TYPE tol{1e-6};
   int iter_max{1000000},
