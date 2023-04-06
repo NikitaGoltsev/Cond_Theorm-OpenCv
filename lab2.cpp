@@ -47,12 +47,10 @@ void initialize_array(T **A, int size) {
       A[i][0] = A[0][0] + addend;               // vertical
       A[i][size - 1] = A[0][size - 1] + addend; // vertical
     }
-
-// Заполнение 20-ю, чтобы сократить количество операций в основном алгоритме
 #pragma acc loop independent collapse(2)
     for (int i = 1; i < size - 1; ++i)
       for (int j = 1; j < size - 1; ++j)
-        A[i][j] = 20.0;
+        A[i][j] = 0.0;
   }
 }
 
